@@ -1,25 +1,21 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image, Alert } from 'react-native';
+import { View, Text, TouchableOpacity, Image, Alert, ActivityIndicator } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useColorScheme } from 'react-native';
-import useStore from '../store/useStore';
+import { useAuth } from '../context/AuthContext';
 
 const AuthScreen = () => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
-  const { authenticate } = useStore();
+  const { signInWithGoogle, isLoading } = useAuth();
 
-  const handleGoogleSignIn = () => {
-    // Mock Google Sign-In - in a real app, this would integrate with Google OAuth
-    const mockUser = {
-      id: '1',
-      name: 'John Doe',
-      email: 'john.doe@example.com',
-      photo: 'https://via.placeholder.com/150',
-    };
-    
-    authenticate(mockUser);
-    Alert.alert('Success', 'Signed in successfully!');
+  const handleGoogleSignIn = async () => {
+    try {
+      await signInWithGoogle();
+    } catch (error) {
+      console.error('Sign-in error:', error);
+      Alert.alert('Error', 'Failed to sign in. Please try again.');
+    }
   };
 
   return (
@@ -79,38 +75,46 @@ const AuthScreen = () => {
         {/* Google Sign-In Button */}
         <TouchableOpacity
           onPress={handleGoogleSignIn}
+          disabled={isLoading}
           style={{
             width: '100%',
             height: 48,
-            backgroundColor: '#0d8bf2', // primary
+            backgroundColor: isLoading ? '#ccc' : '#0d8bf2', // primary
             borderRadius: 8,
             flexDirection: 'row',
             alignItems: 'center',
             justifyContent: 'center',
             paddingHorizontal: 20,
             marginBottom: 32,
+            opacity: isLoading ? 0.7 : 1,
           }}
         >
-          {/* Google Logo SVG representation */}
-          <View style={{
-            width: 24,
-            height: 24,
-            marginRight: 8,
-            backgroundColor: 'white',
-            borderRadius: 4,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}>
-            <Text style={{ color: '#4285F4', fontSize: 14, fontWeight: 'bold' }}>G</Text>
-          </View>
-          <Text style={{
-            color: 'white',
-            fontSize: 16,
-            fontWeight: 'bold',
-            letterSpacing: 0.015,
-          }}>
-            Sign in with Google
-          </Text>
+          {isLoading ? (
+            <ActivityIndicator color="white" size="small" />
+          ) : (
+            <>
+              {/* Google Logo SVG representation */}
+              <View style={{
+                width: 24,
+                height: 24,
+                marginRight: 8,
+                backgroundColor: 'white',
+                borderRadius: 4,
+                alignItems: 'center',
+                justifyContent: 'center',
+              }}>
+                <Text style={{ color: '#4285F4', fontSize: 14, fontWeight: 'bold' }}>G</Text>
+              </View>
+              <Text style={{
+                color: 'white',
+                fontSize: 16,
+                fontWeight: 'bold',
+                letterSpacing: 0.015,
+              }}>
+                Sign in with Google
+              </Text>
+            </>
+          )}
         </TouchableOpacity>
 
         {/* Footer Links */}

@@ -30,7 +30,7 @@ const GameCard = ({ game, onDetailsPress }) => {
           fontWeight: 'bold',
           color: '#111518',
         }}>
-          Opponent: {game.opponent}
+          Team Alpha vs {game.opponent}
         </Text>
         <Text style={{
           fontSize: 14,

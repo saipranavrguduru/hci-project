@@ -1,11 +1,27 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, Image } from 'react-native';
-import { MaterialIcons } from '@expo/vector-icons';
+import { View, Text, Image, TouchableOpacity, Alert } from 'react-native';
 import { useColorScheme } from 'react-native';
+import { MaterialIcons } from '@expo/vector-icons';
+import { useAuth } from '../context/AuthContext';
 
-const Header = ({ teamName, teamLogo, onSettingsPress }) => {
+const Header = ({ teamName, teamLogo }) => {
   const colorScheme = useColorScheme();
   const isDark = colorScheme === 'dark';
+  const { user, signOut } = useAuth();
+
+  const handleLogout = () => {
+    console.log('Logout button pressed');
+    
+    // Use browser confirm for web compatibility
+    const confirmed = window.confirm('Are you sure you want to sign out?');
+    
+    if (confirmed) {
+      console.log('User confirmed logout');
+      signOut();
+    } else {
+      console.log('User cancelled logout');
+    }
+  };
 
   return (
     <View style={{
@@ -42,24 +58,49 @@ const Header = ({ teamName, teamLogo, onSettingsPress }) => {
       }}>
         {teamName}
       </Text>
+      
+      {/* User info and logout button */}
       <View style={{
-        width: 48,
-        alignItems: 'flex-end',
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
       }}>
+        {user && (
+          <View style={{
+            alignItems: 'flex-end',
+            marginRight: 8,
+          }}>
+            <Text style={{
+              fontSize: 14,
+              color: '#111518',
+              fontWeight: '600',
+            }}>
+              {user.displayName || user.email?.split('@')[0] || 'User'}
+            </Text>
+            <Text style={{
+              fontSize: 11,
+              color: '#6b7280',
+            }}>
+              {user.email}
+            </Text>
+          </View>
+        )}
         <TouchableOpacity
-          onPress={onSettingsPress}
+          onPress={handleLogout}
           style={{
-            width: 48,
-            height: 48,
+            padding: 8,
+            borderRadius: 6,
+            backgroundColor: '#f3f4f6',
+            minWidth: 36,
+            minHeight: 36,
             alignItems: 'center',
             justifyContent: 'center',
+            borderWidth: 1,
+            borderColor: '#d1d5db',
           }}
+          activeOpacity={0.7}
         >
-          <MaterialIcons
-            name="settings"
-            size={24}
-            color="#111518"
-          />
+          <MaterialIcons name="logout" size={20} color="#6b7280" />
         </TouchableOpacity>
       </View>
     </View>
