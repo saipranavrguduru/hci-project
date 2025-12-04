@@ -153,6 +153,7 @@ const SignUpScreen = ({ onSwitchToSignIn }) => {
           onClose={() => setShowTeamModal(false)}
           onSelectTeam={handleTeamSelect}
           selectedTeam={team}
+          isUserTeamSelection={true}
         />
       </View>
     </SafeAreaView>

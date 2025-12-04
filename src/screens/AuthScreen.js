@@ -50,7 +50,7 @@ const AuthScreen = () => {
           justifyContent: 'center',
         }}>
           <Image
-            source={{ uri: 'https://lh3.googleusercontent.com/aida-public/AB6AXuATg1ltPaIrimbP5266IYxieC1kmmzt9URkg9HYuHTjkn7SAUO5CIYzCh48NEFZxjt8raCAm7NnaPWB8ZosUaFwAKUgnGpbha-ZFQp4kSVEDId-e9q13mQf7467CqggBefpC4jusrno72QPhbe5HKBz50jLbsI3dWBZm_sX37Bp5-q3jLvnDZtDv3dphCQiXGPlXCPHIGth2qev226t1yNhq_njuJg1HKySBgClwr9PwI8I4zfI6O4pl6TX6Wel9Hh3LqxMoV_3-zvv' }}
+            source={require('../../assets/logo.png')}
             style={{
               width: 80,
               height: 80,

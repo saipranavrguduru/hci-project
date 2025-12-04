@@ -10,15 +10,13 @@ import {
 } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 
-const TeamSelectionModal = ({ visible, onClose, onSelectTeam, selectedTeam }) => {
+const TeamSelectionModal = ({ visible, onClose, onSelectTeam, selectedTeam, isUserTeamSelection = false }) => {
   const [searchText, setSearchText] = useState('');
 
-  // Predefined opponent teams (excluding Alpha since that's our team)
-  const predefinedTeams = [
-    'Beta', 
-    'Gamma',
-    'Delta'
-  ];
+  // Teams available for selection
+  const predefinedTeams = isUserTeamSelection 
+    ? ['Alpha', 'Beta', 'Gamma', 'Delta'] // All teams for user selection
+    : ['Beta', 'Gamma', 'Delta']; // Only opponent teams for game selection
 
   const filteredTeams = predefinedTeams.filter(team =>
     team.toLowerCase().includes(searchText.toLowerCase())
@@ -40,7 +38,9 @@ const TeamSelectionModal = ({ visible, onClose, onSelectTeam, selectedTeam }) =>
       <View style={styles.overlay}>
         <View style={styles.modal}>
           <View style={styles.header}>
-            <Text style={styles.title}>Choose Opponent Team</Text>
+            <Text style={styles.title}>
+              {isUserTeamSelection ? 'Choose Your Team' : 'Choose Opponent Team'}
+            </Text>
             <TouchableOpacity onPress={onClose} style={styles.closeButton}>
               <MaterialIcons name="close" size={24} color="#6b7280" />
             </TouchableOpacity>
@@ -51,7 +51,9 @@ const TeamSelectionModal = ({ visible, onClose, onSelectTeam, selectedTeam }) =>
             <MaterialIcons name="search" size={20} color="#6b7280" style={styles.searchIcon} />
             <TextInput
               style={styles.searchInput}
-              placeholder="Search opponent teams (Beta, Gamma, Delta)..."
+              placeholder={isUserTeamSelection 
+                ? "Search teams (Alpha, Beta, Gamma, Delta)..." 
+                : "Search opponent teams (Beta, Gamma, Delta)..."}
               value={searchText}
               onChangeText={setSearchText}
             />
@@ -92,7 +94,9 @@ const TeamSelectionModal = ({ visible, onClose, onSelectTeam, selectedTeam }) =>
           {/* Selected Team Display */}
           {selectedTeam && (
             <View style={styles.selectedTeamContainer}>
-              <Text style={styles.selectedTeamLabel}>Selected Opponent:</Text>
+              <Text style={styles.selectedTeamLabel}>
+                {isUserTeamSelection ? 'Selected Team:' : 'Selected Opponent:'}
+              </Text>
               <Text style={styles.selectedTeamText}>Team {selectedTeam}</Text>
             </View>
           )}

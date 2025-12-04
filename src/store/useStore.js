@@ -9,7 +9,7 @@ const useStore = create((set) => ({
 
   // Team data
   teamName: 'Team Alpha',
-  teamLogo: 'https://lh3.googleusercontent.com/aida-public/AB6AXuDHVG3OYxiwT-GM3OqGu9f2j7gmTLxlIIJAsBzta19G05DMDdLVs2oC16HBo-BK40iXjw74woN7Hwn_mZUq6IOMDxBleXi8S8XAruzZmPWCqstCSHLlMTkicOat5oH7q6Zmx-zXtVOtQCLmQVa26laZWY2qh7_QbDRnBDBTbOixnAK8OBbR9igCGokJYrfqSOYKgQKXAkvQpeFz3mEHAIjkYuaiYtOk5WgsYyD94S9QNVzM1Pil6vNKAW1yMJMF9LBfPSycUPuHC9aG',
+  teamLogo: 'file:///Users/saipranavguduru/Downloads/stitch_authentication_screen/GainesvilleUltyStats/assets/logo.png',
   
   // All league players data (our team + opponent teams)
   players: [
